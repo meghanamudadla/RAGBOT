@@ -1,0 +1,38 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\ragbot\backend
+plugins: anyio-4.14.1, langsmith-0.11.0
+collected 44 items / 2 errors
+
+=================================== ERRORS ====================================
+_______________ ERROR collecting tests/test_hybrid_retrieval.py _______________
+ImportError while importing test module 'D:\ragbot\backend\tests\test_hybrid_retrieval.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\megha\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\myprojectsin_fixed_1\backend\tests\test_hybrid_retrieval.py:8: in <module>
+    ???
+app\ai\bm25_index.py:20: in <module>
+    from rank_bm25 import BM25Okapi
+E   ModuleNotFoundError: No module named 'rank_bm25'
+_____________ ERROR collecting tests/test_retriever_isolation.py ______________
+ImportError while importing test module 'D:\ragbot\backend\tests\test_retriever_isolation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+C:\Users\megha\AppData\Local\Programs\Python\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+D:\myprojectsin_fixed_1\backend\tests\test_retriever_isolation.py:7: in <module>
+    ???
+app\ai\retriever.py:6: in <module>
+    from app.ai.bm25_index import get_bm25_index
+app\ai\bm25_index.py:20: in <module>
+    from rank_bm25 import BM25Okapi
+E   ModuleNotFoundError: No module named 'rank_bm25'
+=========================== short test summary info ===========================
+ERROR tests/test_hybrid_retrieval.py
+ERROR tests/test_retriever_isolation.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+============================= 2 errors in 22.11s ==============================
