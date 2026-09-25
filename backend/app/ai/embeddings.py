@@ -12,39 +12,22 @@ WHY A WRAPPER CLASS:
   Swapping to OpenAI or Cohere embeddings later requires only changing
   this file, not the chunker, vector store, or retriever.
 """
-from functools import lru_cache
-
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-
-
-@lru_cache(maxsize=1)
-def _load_model():
-    """Load model once and cache for the lifetime of the process."""
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer(EMBEDDING_MODEL_NAME, device="cpu")
-
-
+from app.core.config import settings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 class EmbeddingClient:
-    """Thin wrapper around SentenceTransformer for embedding text."""
+    """Thin wrapper around Google GenAI Embeddings to offload memory usage."""
 
     def __init__(self) -> None:
-        self._model = _load_model()
+        self._model = GoogleGenerativeAIEmbeddings(
+            model="models/embedding-001",
+            google_api_key=settings.GEMINI_API_KEY,
+        )
 
     def embed(self, text: str) -> list[float]:
-        """Embed a single string and return a list of floats."""
-        return self._model.encode(text, normalize_embeddings=True).tolist()
+        return self._model.embed_query(text)
 
     def embed_batch(self, texts: list[str], batch_size: int = 32) -> list[list[float]]:
-        """
-        Embed multiple texts in batches for efficiency.
-        normalize_embeddings=True makes cosine similarity equal to dot product,
-        which ChromaDB uses internally.
-        """
-        vectors = self._model.encode(
-            texts,
-            batch_size=batch_size,
-            normalize_embeddings=True,
-            show_progress_bar=False,
-        )
-        return [v.tolist() for v in vectors]
+        # langchain natively supports batch embedding
+        return self._model.embed_documents(texts)
+
