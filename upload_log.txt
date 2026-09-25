@@ -1,5 +1,5 @@
-1. Registering: testUser1790316299@example.com / Password123!
+1. Registering: testUser1790317667@example.com / Password123!
 2. Logging in...
 3. Uploading document...
-Upload Status Code: 502
-Upload Response: 
+Upload Status Code: 500
+Upload Response: Internal Server Error

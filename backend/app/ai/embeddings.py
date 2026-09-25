@@ -14,11 +14,15 @@ WHY A WRAPPER CLASS:
 """
 from app.core.config import settings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from fastapi import HTTPException
 
 class EmbeddingClient:
     """Thin wrapper around Google GenAI Embeddings to offload memory usage."""
 
     def __init__(self) -> None:
+        if not settings.GEMINI_API_KEY:
+            raise HTTPException(status_code=400, detail="GEMINI_API_KEY is missing in Render environment variables. Please add it to enable uploads.")
+            
         self._model = GoogleGenerativeAIEmbeddings(
             model="models/embedding-001",
             google_api_key=settings.GEMINI_API_KEY,
