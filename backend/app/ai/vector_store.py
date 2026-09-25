@@ -24,6 +24,12 @@ COLLECTION_NAME = "document_chunks"
 @lru_cache(maxsize=1)
 def _get_chroma_client():
     """Initialise and cache a persistent ChromaDB client."""
+    import sys
+    try:
+        __import__("pysqlite3")
+        sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+    except ImportError:
+        pass
     import chromadb
     from chromadb.config import Settings as ChromaSettings
     return chromadb.PersistentClient(
