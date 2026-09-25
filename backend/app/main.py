@@ -21,7 +21,11 @@ app = FastAPI(title="AI Document Search", version="0.1.0")
 # ------------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://ragbot-ebon.vercel.app",
+        "https://ragbot-zwv0.onrender.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
